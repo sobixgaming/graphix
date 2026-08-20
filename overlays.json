@@ -7,5 +7,14 @@
     "width": 1664,
     "height": 935,
     "effect": "Glanzschimmer"
+  },
+  {
+    "id": "splitrun-rahmen-v",
+    "title": "Splitrun Rahmen V",
+    "path": "overlays/splitrun-rahmen-v/",
+    "image": "overlays/splitrun-rahmen-v/frame.webp",
+    "width": 941,
+    "height": 1672,
+    "effect": "Energie, Glanz und Partikel"
   }
 ]

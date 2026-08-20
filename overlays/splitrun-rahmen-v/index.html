@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Splitrun Rahmen V – OBS Overlay</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
+    body { display: grid; place-items: center; }
+    .stage { position: relative; width: min(100vw, calc(100vh * 941 / 1672)); aspect-ratio: 941 / 1672; isolation: isolate; }
+    .frame, .aura, .energy, .shine, canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .frame { display: block; object-fit: contain; z-index: 3; filter: drop-shadow(0 0 5px #00eaffaa) drop-shadow(0 0 6px #ff13e6aa); }
+    .aura { z-index: 1; background: url("frame.webp") center/contain no-repeat; opacity: .7; filter: blur(13px) saturate(1.55); animation: breathe 3.8s ease-in-out infinite; }
+    .energy { z-index: 2; background: url("frame.webp") center/contain no-repeat; mix-blend-mode: screen; opacity: .22; filter: brightness(1.65) saturate(1.8); animation: surge 2.7s ease-in-out infinite alternate; }
+    .shine { z-index: 4; background: linear-gradient(120deg, transparent 35%, #7ffcff00 43%, #fff 49%, #ff8df6 52%, transparent 60%); background-size: 280% 100%; mix-blend-mode: screen; -webkit-mask: url("frame.webp") center/contain no-repeat; mask: url("frame.webp") center/contain no-repeat; animation: sweep 5.2s ease-in-out infinite; opacity: .8; }
+    canvas { z-index: 5; pointer-events: none; }
+    @keyframes breathe { 0%,100% { opacity:.46; transform:scale(.994); } 50% { opacity:.88; transform:scale(1.008); } }
+    @keyframes surge { from { opacity:.12; filter:brightness(1.3) saturate(1.4); } to { opacity:.34; filter:brightness(2.15) saturate(2); } }
+    @keyframes sweep { 0%,12% { background-position:120% 0; opacity:0; } 24% { opacity:.9; } 52%,100% { background-position:-80% 0; opacity:0; } }
+    @media (prefers-reduced-motion: reduce) { .aura,.energy,.shine { animation:none; } }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="Animierter cyan-magenta Fantasy-Rahmen">
+    <div class="aura"></div><div class="energy"></div>
+    <img class="frame" src="frame.webp" alt="">
+    <div class="shine"></div><canvas></canvas>
+  </main>
+  <script>
+    const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d');
+    const stage = document.querySelector('.stage'); let w=0,h=0,dpr=1,particles=[];
+    const colors=['#67ffff','#00dcff','#ff66f5','#ff13df','#d9fbff'];
+    function resize(){ const r=stage.getBoundingClientRect(); dpr=Math.min(devicePixelRatio||1,2); w=r.width;h=r.height;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0); }
+    function spawn(){
+      const vertical=Math.random()<.72, side=Math.random()<.5?-1:1;
+      let x,y;
+      if(vertical){ x=side<0?w*(.045+Math.random()*.13):w*(.955-Math.random()*.13); y=h*(.05+Math.random()*.9); }
+      else { x=w*(.06+Math.random()*.88); y=Math.random()<.5?h*(.025+Math.random()*.09):h*(.975-Math.random()*.09); }
+      particles.push({x,y,vx:(Math.random()-.5)*.13,vy:-.12-Math.random()*.3,r:.7+Math.random()*2.4,a:.3+Math.random()*.65,life:90+Math.random()*130,c:colors[Math.floor(Math.random()*colors.length)]});
+    }
+    function tick(){ ctx.clearRect(0,0,w,h); if(particles.length<70 && Math.random()<.72) spawn();
+      ctx.globalCompositeOperation='lighter';
+      particles=particles.filter(p=>{ p.x+=p.vx;p.y+=p.vy;p.life--;p.a*=.994; if(p.life<=0)return false;
+        ctx.shadowBlur=p.r*5;ctx.shadowColor=p.c;ctx.fillStyle=p.c;ctx.globalAlpha=p.a*Math.min(1,p.life/28);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();return true; });
+      ctx.globalAlpha=1;requestAnimationFrame(tick); }
+    new ResizeObserver(resize).observe(stage); resize(); tick();
+  </script>
+</body>
+</html>
