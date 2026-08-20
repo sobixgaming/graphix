@@ -16,5 +16,14 @@
     "width": 941,
     "height": 1672,
     "effect": "Energie, Glanz und Partikel"
+  },
+  {
+    "id": "pepe-break-timer",
+    "title": "Pepe Break Timer",
+    "path": "overlays/pepe-break-timer/",
+    "image": "overlays/pepe-break-timer/pepe.jpg?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Countdown, Neon-Orbit und Partikel"
   }
 ]
