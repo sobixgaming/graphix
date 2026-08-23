@@ -34,5 +34,14 @@
     "width": 1080,
     "height": 1920,
     "effect": "Kamera, Licht, Vulkan, Pterosaurier und Blätter"
+  },
+  {
+    "id": "shark-dentist-horror-reel",
+    "title": "Shark Dentist – Horror Reel",
+    "path": "overlays/shark-dentist-horror-reel/",
+    "image": "overlays/shark-dentist-horror-reel/poster.jpg?v=1",
+    "width": 1080,
+    "height": 1920,
+    "effect": "Blut, OP-Licht, Nebel, Alarm und VHS"
   }
 ]
