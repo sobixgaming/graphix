@@ -25,5 +25,14 @@
     "width": 1920,
     "height": 1080,
     "effect": "Neon-Orbit und Partikel"
+  },
+  {
+    "id": "very-safe-dino-park-reel",
+    "title": "Very Safe Dino Park – Reel",
+    "path": "overlays/very-safe-dino-park-reel/",
+    "image": "overlays/very-safe-dino-park-reel/poster.jpg?v=1",
+    "width": 1080,
+    "height": 1920,
+    "effect": "Kamera, Licht, Vulkan, Pterosaurier und Blätter"
   }
 ]
