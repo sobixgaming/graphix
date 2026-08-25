@@ -1,5 +1,14 @@
 [
   {
+    "id": "season2-progress-logo",
+    "title": "Season 2 Progress – Logo",
+    "path": "overlays/season2-progress-logo/",
+    "image": "overlays/season2-progress-logo/logo.webp?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Goldrand, Glanz und Giftenergie"
+  },
+  {
     "id": "splitruns-s2",
     "title": "Welcome to Season 2 – Splitruns",
     "path": "overlays/splitruns-s2/",
