@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Mythic+ Keys – OBS Logo</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html,body { width:100%; height:100%; margin:0; overflow:hidden; background:transparent !important; }
+    body { display:grid; place-items:center; }
+    canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; }
+    .stage {
+      position:relative; width:min(92vw,1672px); aspect-ratio:1672/941;
+      isolation:isolate; animation:float 5.8s ease-in-out infinite;
+    }
+    .mask {
+      position:absolute; inset:0; pointer-events:none;
+      -webkit-mask:url('logo.webp') center/contain no-repeat;
+      mask:url('logo.webp') center/contain no-repeat;
+    }
+    .aura {
+      z-index:-4; transform:scale(1.032);
+      background:#00f5ff; opacity:.26; filter:blur(24px) saturate(1.7);
+      animation:aura 2.4s ease-in-out infinite;
+    }
+    .outline {
+      z-index:-2; transform:scale(1.014);
+      background:linear-gradient(120deg,#00ffff,#17cfff 38%,#82ffff 55%,#00a9ff);
+      opacity:.88;
+      filter:drop-shadow(0 0 5px #55ffff) drop-shadow(0 0 15px #00d9ff) drop-shadow(0 0 28px #007dff99);
+      animation:outlinePulse 2s ease-in-out infinite;
+    }
+    .outline-runner {
+      z-index:-1; transform:scale(1.023);
+      background:conic-gradient(from var(--turn) at 50% 49%,
+        transparent 0deg 254deg,#00b8d430 270deg,#1effff 292deg,#eaffff 306deg,#00d7ff 322deg,transparent 342deg 360deg);
+      filter:drop-shadow(0 0 8px #7fffff) drop-shadow(0 0 22px #00e6ff);
+      animation:clockwise 4.8s linear infinite;
+    }
+    .logo {
+      position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:1;
+      filter:drop-shadow(0 8px 13px #000b) drop-shadow(0 0 4px #00eaff90);
+    }
+    .color-flow {
+      z-index:2; opacity:.27; mix-blend-mode:screen;
+      background:
+        radial-gradient(circle at 60% 13%,#9effff 0 2%,transparent 14%),
+        radial-gradient(circle at 26% 51%,#00ffff 0 1%,transparent 17%),
+        radial-gradient(circle at 73% 60%,#41bdff 0 2%,transparent 18%),
+        repeating-linear-gradient(105deg,transparent 0 14%,#79ffff38 17%,transparent 21% 35%);
+      background-size:130% 130%,150% 150%,135% 135%,190% 100%;
+      animation:flow 5.2s linear infinite;
+    }
+    .shine {
+      z-index:3; opacity:0; mix-blend-mode:screen;
+      background:linear-gradient(105deg,transparent 0 40%,#4cffff55 45%,#f4ffff 50%,#62eaffaa 54%,transparent 61% 100%);
+      transform:translateX(-125%); animation:shine 4.2s ease-in-out infinite;
+    }
+    .key-glow {
+      position:absolute; z-index:4; left:51%; top:2%; width:22%; height:34%; border-radius:50%;
+      background:radial-gradient(circle,#ecffffbb 0,#39ffc677 18%,#00eaff38 42%,transparent 70%);
+      filter:blur(10px); mix-blend-mode:screen; pointer-events:none;
+      animation:keyPulse 2.1s ease-in-out infinite;
+    }
+    .base-glow {
+      position:absolute; z-index:-5; left:8%; right:8%; bottom:2%; height:15%; border-radius:50%;
+      background:radial-gradient(ellipse,#52ffffb0,#00aaff55 42%,transparent 72%);
+      filter:blur(20px); animation:baseGlow 2.6s ease-in-out infinite;
+    }
+    @property --turn { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+    @keyframes clockwise { to { --turn:360deg; } }
+    @keyframes float { 0%,100%{transform:translateY(3px) scale(.993)} 50%{transform:translateY(-7px) scale(1)} }
+    @keyframes aura { 0%,100%{opacity:.18;transform:scale(1.026)} 50%{opacity:.42;transform:scale(1.045)} }
+    @keyframes outlinePulse {
+      0%,100%{opacity:.66;filter:drop-shadow(0 0 4px #55ffff) drop-shadow(0 0 12px #00d9ff)}
+      50%{opacity:1;filter:drop-shadow(0 0 9px #b8ffff) drop-shadow(0 0 25px #00eaff) drop-shadow(0 0 38px #007dffbb)}
+    }
+    @keyframes flow { from{background-position:0 20%,90% 10%,20% 80%,0 0} to{background-position:90% -20%,0 100%,100% 0,190% 0} }
+    @keyframes shine {
+      0%,12%{transform:translateX(-125%);opacity:0} 22%{opacity:.95}
+      52%{transform:translateX(125%);opacity:.9} 61%,100%{transform:translateX(125%);opacity:0}
+    }
+    @keyframes keyPulse { 0%,100%{opacity:.25;transform:scale(.92)} 50%{opacity:.82;transform:scale(1.08)} }
+    @keyframes baseGlow { 0%,100%{opacity:.35;transform:scaleX(.9)} 50%{opacity:.8;transform:scaleX(1.06)} }
+    @media(prefers-reduced-motion:reduce){.stage,.mask,.key-glow,.base-glow{animation:none!important}}
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <div class="stage" id="stage">
+    <div class="base-glow"></div>
+    <div class="mask aura"></div>
+    <div class="mask outline"></div>
+    <div class="mask outline-runner"></div>
+    <img class="logo" src="logo.webp" alt="Mythic Plus Keys">
+    <div class="mask color-flow"></div>
+    <div class="mask shine"></div>
+    <div class="key-glow"></div>
+  </div>
+  <script>
+    const canvas=document.querySelector('#fx'),ctx=canvas.getContext('2d'),stage=document.querySelector('#stage');
+    let W=0,H=0,dpr=1,particles=[]; const rnd=(a,b)=>a+Math.random()*(b-a);
+    function spawn(initial=false){
+      const r=stage.getBoundingClientRect(), edge=Math.floor(Math.random()*4); let x,y;
+      if(edge===0){x=r.left+r.width*rnd(.08,.92);y=r.top+r.height*rnd(.03,.18)}
+      else if(edge===1){x=r.left+r.width*rnd(.05,.22);y=r.top+r.height*rnd(.2,.82)}
+      else if(edge===2){x=r.right-r.width*rnd(.05,.22);y=r.top+r.height*rnd(.2,.82)}
+      else{x=r.left+r.width*rnd(.15,.85);y=r.bottom-r.height*rnd(.05,.17)}
+      return{x,y,vx:rnd(-.35,.35),vy:rnd(-.45,-.08),size:rnd(1.1,4.4),life:initial?rnd(0,1):0,speed:rnd(.004,.009)};
+    }
+    function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);particles=[];for(let i=0;i<58;i++)particles.push(spawn(true))}
+    function draw(){
+      ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+      particles.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.life+=p.speed;if(p.life>1)particles[i]=p=spawn(false);const a=Math.sin(Math.PI*p.life)*.9;
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*3.4);g.addColorStop(0,`rgba(220,255,255,${a})`);g.addColorStop(.25,`rgba(25,245,255,${a*.75})`);g.addColorStop(1,'rgba(0,130,255,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.size*3.4,0,Math.PI*2);ctx.fill()});requestAnimationFrame(draw)
+    }
+    addEventListener('resize',resize,{passive:true});resize();draw();
+  </script>
+</body>
+</html>

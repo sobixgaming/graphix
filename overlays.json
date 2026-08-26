@@ -1,12 +1,21 @@
 [
   {
+    "id": "mythic-keys-logo",
+    "title": "Mythic+ Keys – Logo",
+    "path": "overlays/mythic-keys-logo/",
+    "image": "overlays/mythic-keys-logo/logo.webp?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Türkise Kontur, Lichtlauf und Glanz"
+  },
+  {
     "id": "season2-progress-logo",
     "title": "Season 2 Progress – Logo",
     "path": "overlays/season2-progress-logo/",
     "image": "overlays/season2-progress-logo/logo.webp?v=1",
     "width": 1920,
     "height": 1080,
-    "effect": "Goldene Schriftkontur und Giftenergie"
+    "effect": "Goldrand, Glanz und Giftenergie"
   },
   {
     "id": "splitruns-s2",
