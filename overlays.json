@@ -1,5 +1,14 @@
 [
   {
+    "id": "carry-the-glass-logo",
+    "title": "Carry the Glass – Sobix & Kaleyco",
+    "path": "overlays/carry-the-glass-logo/",
+    "image": "overlays/carry-the-glass-logo/logo.webp?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Glasbruch, Splitter, Cyan-Aura und Glanz"
+  },
+  {
     "id": "mecca-chameleon-logo",
     "title": "Mecca Chameleon – Sobix & Friends",
     "path": "overlays/mecca-chameleon-logo/",

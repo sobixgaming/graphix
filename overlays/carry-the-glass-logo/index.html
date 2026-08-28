@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Carry the Glass – OBS Logo</title>
+  <style>
+    :root{color-scheme:dark}
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent!important}
+    body{display:grid;place-items:center}
+    canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+    .stage{position:relative;width:min(92vw,1672px);aspect-ratio:1672/941;isolation:isolate;animation:impact 5.4s ease-in-out infinite}
+    .mask{position:absolute;inset:0;pointer-events:none;-webkit-mask:url('logo.webp') center/contain no-repeat;mask:url('logo.webp') center/contain no-repeat}
+    .aura{z-index:-5;transform:scale(1.045);background:conic-gradient(from var(--spin),#00eaff,#2474ff,#00ff9d,#72f8ff,#1459ff,#00eaff);filter:blur(30px) saturate(1.8);opacity:.38;animation:spin 5.4s linear infinite,auraPulse 1.65s ease-in-out infinite}
+    .outline{z-index:-3;transform:scale(1.018);background:linear-gradient(105deg,#d6ffff,#00eeff 26%,#2474ff 52%,#00ffc8 76%,#b5ffff);filter:drop-shadow(0 0 8px #a9ffff) drop-shadow(0 0 22px #00dfff) drop-shadow(0 0 38px #236fffaa);animation:outlinePulse 1.45s ease-in-out infinite}
+    .runner{z-index:-2;transform:scale(1.03);background:conic-gradient(from var(--turn) at 50% 48%,transparent 0 250deg,#00aaff40 270deg,#68ffff 292deg,#fff 305deg,#32a6ff 320deg,transparent 344deg 360deg);filter:drop-shadow(0 0 12px #b9ffff) drop-shadow(0 0 30px #00aaff);animation:clockwise 3.8s linear infinite}
+    .logo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;filter:drop-shadow(0 9px 14px #000c) drop-shadow(0 0 5px #00cfffaa)}
+    .ice-flow{z-index:2;opacity:.32;mix-blend-mode:screen;background:repeating-linear-gradient(110deg,transparent 0 13%,#cfffff4d 17%,#19dfff55 20%,#5f8dff42 23%,transparent 28% 42%);background-size:210% 100%;animation:flow 4.2s linear infinite}
+    .shine{z-index:3;opacity:0;mix-blend-mode:screen;background:linear-gradient(106deg,transparent 0 41%,#62dfff66 46%,#fff 50%,#d8ffff 53%,#42aaffaa 57%,transparent 64% 100%);transform:translateX(-130%);animation:shine 4s ease-in-out infinite}
+    .hammer-glow{position:absolute;z-index:5;left:38%;top:0;width:32%;height:33%;border-radius:50%;background:radial-gradient(circle,#fffbd4dd 0,#ffe27b80 12%,#55eaff58 32%,transparent 68%);filter:blur(9px);mix-blend-mode:screen;animation:hammer 5.4s ease-in-out infinite}
+    .panel-flash{position:absolute;z-index:6;left:60%;top:10%;width:27%;height:49%;clip-path:polygon(13% 17%,91% 0,84% 92%,0 78%);background:radial-gradient(circle at 47% 51%,#fff 0 3%,#bfffffaa 8%,#21dfff66 24%,transparent 62%);filter:blur(4px);mix-blend-mode:screen;opacity:0;animation:panelFlash 5.4s ease-out infinite}
+    .ground{position:absolute;z-index:-6;left:8%;right:8%;bottom:1%;height:15%;border-radius:50%;background:radial-gradient(ellipse,#a8ffffc0,#00bfff6b 35%,transparent 72%);filter:blur(19px);animation:ground 1.8s ease-in-out infinite}
+    @property --turn{syntax:'<angle>';inherits:false;initial-value:0deg}
+    @property --spin{syntax:'<angle>';inherits:false;initial-value:0deg}
+    @keyframes clockwise{to{--turn:360deg}}
+    @keyframes spin{to{--spin:360deg}}
+    @keyframes impact{0%,17%,100%{transform:scale(.988) translateY(3px)}19%{transform:scale(1.025) translateY(-6px) rotate(-.35deg)}20.5%{transform:scale(.994) translateX(7px) rotate(.3deg)}22%{transform:scale(1.01) translateX(-6px) rotate(-.2deg)}25%{transform:scale(1) translateX(0)}58%{transform:scale(1.008) translateY(-7px)}}
+    @keyframes auraPulse{0%,100%{opacity:.24;transform:scale(1.035)}50%{opacity:.58;transform:scale(1.065)}}
+    @keyframes outlinePulse{0%,100%{opacity:.62}50%{opacity:1;filter:drop-shadow(0 0 13px #fff) drop-shadow(0 0 31px #00eaff) drop-shadow(0 0 48px #235fff)}}
+    @keyframes flow{from{background-position:0 0}to{background-position:210% 0}}
+    @keyframes shine{0%,10%{transform:translateX(-130%);opacity:0}21%{opacity:1}54%{transform:translateX(130%);opacity:.9}62%,100%{transform:translateX(130%);opacity:0}}
+    @keyframes hammer{0%,15%,100%{opacity:.16;transform:scale(.8)}18%{opacity:1;transform:scale(1.25)}23%{opacity:.25;transform:scale(.92)}}
+    @keyframes panelFlash{0%,17%,100%{opacity:0;transform:scale(.7)}19%{opacity:1;transform:scale(1.25)}22%{opacity:.36;transform:scale(1)}31%{opacity:0}}
+    @keyframes ground{0%,100%{opacity:.3;transform:scaleX(.9)}50%{opacity:.8;transform:scaleX(1.07)}}
+    @media(prefers-reduced-motion:reduce){.stage,.mask,.hammer-glow,.panel-flash,.ground{animation:none!important}}
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <div class="stage" id="stage">
+    <div class="mask aura"></div><div class="mask outline"></div><div class="mask runner"></div><div class="ground"></div>
+    <img class="logo" src="logo.webp" alt="Carry the Glass mit Sobix und Kaleyco">
+    <div class="mask ice-flow"></div><div class="mask shine"></div><div class="hammer-glow"></div><div class="panel-flash"></div>
+  </div>
+  <script>
+    const canvas=document.querySelector('#fx'),ctx=canvas.getContext('2d'),stage=document.querySelector('#stage');
+    let W=0,H=0,dpr=1,particles=[],shards=[];const PERIOD=5.4,IMPACT=1.02,rnd=(a,b)=>a+Math.random()*(b-a);
+    function makeShard(i){const a=(Math.PI*2*i/34)+rnd(-.12,.12),speed=rnd(75,245);return{a,speed,size:rnd(7,22),spin:rnd(-7,7),offset:rnd(-.07,.1),hue:rnd(180,210)}}
+    function spawn(initial=false){const r=stage.getBoundingClientRect();return{x:r.left+r.width*rnd(.04,.96),y:r.top+r.height*rnd(.06,.94),vx:rnd(-.3,.3),vy:rnd(-.55,-.08),s:rnd(1,4.6),life:initial?rnd(0,1):0,speed:rnd(.004,.01)}}
+    function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);particles=[];for(let i=0;i<52;i++)particles.push(spawn(true));shards=[];for(let i=0;i<34;i++)shards.push(makeShard(i))}
+    function crack(cx,cy,p){const alpha=Math.max(0,1-p/1.55);if(alpha<=0)return;ctx.save();ctx.strokeStyle=`rgba(220,252,255,${alpha*.9})`;ctx.shadowColor='#3de5ff';ctx.shadowBlur=8;ctx.lineWidth=1.4;for(let j=0;j<13;j++){const a=j*Math.PI*2/13+.17,len=45+(j%4)*24;ctx.beginPath();ctx.moveTo(cx,cy);let x=cx,y=cy;for(let k=1;k<=4;k++){x=cx+Math.cos(a)*len*k/4+Math.sin(k*3+j)*8;y=cy+Math.sin(a)*len*k/4+Math.cos(k*2+j)*6;ctx.lineTo(x,y)}ctx.stroke()}ctx.restore()}
+    function drawShard(cx,cy,s,p){const x=cx+Math.cos(s.a)*s.speed*p,y=cy+Math.sin(s.a)*s.speed*p+95*p*p,alpha=Math.max(0,1-p/2.1);if(alpha<=0)return;ctx.save();ctx.translate(x,y);ctx.rotate(s.spin*p);ctx.fillStyle=`hsla(${s.hue},100%,78%,${alpha*.42})`;ctx.strokeStyle=`rgba(224,255,255,${alpha*.95})`;ctx.shadowColor='#37dcff';ctx.shadowBlur=10;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(-s.size*.7,-s.size*.35);ctx.lineTo(s.size,.05);ctx.lineTo(-s.size*.2,s.size);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore()}
+    function draw(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';const r=stage.getBoundingClientRect(),cx=r.left+r.width*.715,cy=r.top+r.height*.31,clock=(performance.now()/1000)%PERIOD,p=clock-IMPACT;
+      particles.forEach((q,i)=>{q.x+=q.vx;q.y+=q.vy;q.life+=q.speed;if(q.life>1)particles[i]=q=spawn(false);const a=Math.sin(Math.PI*q.life),g=ctx.createRadialGradient(q.x,q.y,0,q.x,q.y,q.s*4);g.addColorStop(0,`rgba(240,255,255,${a})`);g.addColorStop(.25,`rgba(21,225,255,${a*.75})`);g.addColorStop(1,'rgba(20,85,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,q.s*4,0,Math.PI*2);ctx.fill()});
+      if(p>=0&&p<2.2){crack(cx,cy,p);shards.forEach(s=>drawShard(cx,cy,s,p+s.offset));if(p<.25){const radius=20+p*360,alpha=1-p/.25;ctx.strokeStyle=`rgba(220,255,255,${alpha})`;ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.stroke()}}
+      requestAnimationFrame(draw)}
+    addEventListener('resize',resize,{passive:true});resize();draw();
+  </script>
+</body>
+</html>
