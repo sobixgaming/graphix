@@ -1,5 +1,14 @@
 [
   {
+    "id": "mecca-chameleon-logo",
+    "title": "Mecca Chameleon – Sobix & Friends",
+    "path": "overlays/mecca-chameleon-logo/",
+    "image": "overlays/mecca-chameleon-logo/logo.webp?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Starke Regenbogen-Aura, Goldglanz und Partikel"
+  },
+  {
     "id": "mythic-keys-logo",
     "title": "Mythic+ Keys – Logo",
     "path": "overlays/mythic-keys-logo/",
