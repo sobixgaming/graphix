@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Horror Webcam-Rahmen</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
+    body { display: grid; place-items: center; }
+    #stage {
+      position: relative; width: 100vw; height: 100vh; overflow: hidden;
+      background: transparent; transform-origin: center;
+      animation: breathe 7s ease-in-out infinite;
+    }
+    #frame, .veins, .blood-glow, #fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+    #frame { object-fit: fill; z-index: 4; filter: drop-shadow(0 0 7px rgba(130,0,0,.55)); }
+    .veins, .blood-glow {
+      z-index: 5; pointer-events: none;
+      -webkit-mask: url('frame.webp?v=1') center/100% 100% no-repeat;
+      mask: url('frame.webp?v=1') center/100% 100% no-repeat;
+    }
+    .veins {
+      opacity: .68;
+      background:
+        conic-gradient(from var(--turn,0deg) at 50% 50%, transparent 0 10%, #ff1010 14%, transparent 19% 38%, #8b0000 44%, transparent 50% 71%, #ff261d 76%, transparent 82%),
+        repeating-linear-gradient(110deg, transparent 0 7%, rgba(255,0,0,.42) 8%, transparent 9% 15%);
+      mix-blend-mode: screen;
+      filter: blur(1.5px) saturate(1.35) drop-shadow(0 0 12px #bd0000);
+      animation: bloodFlow 12s linear infinite, veinPulse 3.8s ease-in-out infinite;
+    }
+    .blood-glow {
+      z-index: 3; opacity: .48;
+      background: #bd0000;
+      filter: blur(17px) drop-shadow(0 0 24px #ff1100);
+      animation: glowPulse 4.8s ease-in-out infinite;
+    }
+    #fx { z-index: 7; pointer-events: none; }
+    .drop {
+      position: absolute; z-index: 6; top: 7%; width: .42%; min-width: 4px;
+      height: 2%; border-radius: 50% 50% 62% 62%; opacity: 0;
+      background: linear-gradient(#4b0000, #c20b0b 65%, #280000);
+      box-shadow: 0 0 5px rgba(255,0,0,.7);
+      transform-origin: 50% 0;
+      animation: drip var(--time) cubic-bezier(.45,.02,.65,1) infinite var(--delay);
+    }
+    .drop::before { content:""; position:absolute; left:18%; top:-220%; width:64%; height:260%; border-radius:60%; background:linear-gradient(#310000,#8f0000); }
+    .fog {
+      position: absolute; z-index: 2; inset: -10%; pointer-events: none; opacity: .22;
+      background:
+        radial-gradient(ellipse at 7% 40%, rgba(170,0,0,.5), transparent 22%),
+        radial-gradient(ellipse at 93% 55%, rgba(150,0,0,.44), transparent 20%),
+        radial-gradient(ellipse at 50% 96%, rgba(110,0,0,.52), transparent 19%);
+      filter: blur(24px); animation: fogDrift 10s ease-in-out infinite alternate;
+    }
+    .skull-eye {
+      position:absolute; z-index:8; left:91.2%; top:6.5%; width:1.5%; aspect-ratio:1;
+      border-radius:50%; background:#ff1b0c; opacity:.15; filter:blur(3px);
+      box-shadow:0 0 11px 4px #d00000,0 0 28px 8px rgba(255,0,0,.72);
+      animation: eye 5.2s ease-in-out infinite;
+    }
+    @property --turn { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+    @keyframes bloodFlow { to { --turn:360deg; background-position:0 0, 35vw 0; } }
+    @keyframes veinPulse { 0%,100%{opacity:.42} 45%{opacity:.8} 52%{opacity:.56} 60%{opacity:.78} }
+    @keyframes glowPulse { 0%,100%{opacity:.26;transform:scale(1)} 50%{opacity:.56;transform:scale(1.006)} }
+    @keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.003)} }
+    @keyframes fogDrift { from{transform:translate3d(-1.5%,1%,0) scale(1)} to{transform:translate3d(1.5%,-1%,0) scale(1.04)} }
+    @keyframes drip {
+      0%,61%{opacity:0;transform:translateY(0) scaleY(.3)} 64%{opacity:.9}
+      80%{opacity:.95;transform:translateY(5.5vh) scaleY(1.35)} 87%,100%{opacity:0;transform:translateY(8vh) scaleY(.65)}
+    }
+    @keyframes eye { 0%,70%,100%{opacity:.08;transform:scale(.7)} 76%{opacity:.8;transform:scale(1.3)} 79%{opacity:.2} 82%{opacity:.9} 88%{opacity:.12} }
+    @media (prefers-reduced-motion:reduce){ *{animation-duration:1ms!important;animation-iteration-count:1!important} }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div class="fog"></div><div class="blood-glow"></div>
+    <img id="frame" src="frame.webp?v=1" alt="Horror Webcam-Rahmen">
+    <div class="veins"></div><div class="skull-eye"></div>
+    <i class="drop" style="left:13%;--time:8.1s;--delay:-2.2s"></i>
+    <i class="drop" style="left:25%;--time:10.4s;--delay:-7.1s"></i>
+    <i class="drop" style="left:48%;--time:9.2s;--delay:-4.4s"></i>
+    <i class="drop" style="left:72%;--time:11.3s;--delay:-9.6s"></i>
+    <i class="drop" style="left:86%;--time:8.8s;--delay:-1.4s"></i>
+    <canvas id="fx"></canvas>
+  </div>
+  <script>
+    const canvas=document.querySelector('#fx'),ctx=canvas.getContext('2d');
+    let w=0,h=0,dpr=1,start=performance.now();
+    const spiders=[
+      {p:.04,s:.0000105,z:1.05,a:.86},{p:.31,s:-.0000076,z:.8,a:.7},
+      {p:.58,s:.0000064,z:.68,a:.62},{p:.79,s:-.0000092,z:.92,a:.78}
+    ];
+    const motes=Array.from({length:42},(_,i)=>({p:i/42,x:Math.random(),y:Math.random(),r:1+Math.random()*3,v:.15+Math.random()*.35}));
+    function resize(){const r=canvas.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+    addEventListener('resize',resize);resize();
+    function pathPoint(t){
+      t=((t%1)+1)%1; const m=Math.min(w,h)*.055,L=2*((w-2*m)+(h-2*m)),d=t*L;
+      if(d<w-2*m)return{x:m+d,y:m,ang:0}; d-=w-2*m;
+      if(d<h-2*m)return{x:w-m,y:m+d,ang:Math.PI/2}; d-=h-2*m;
+      if(d<w-2*m)return{x:w-m-d,y:h-m,ang:Math.PI}; d-=w-2*m;
+      return{x:m,y:h-m-d,ang:-Math.PI/2};
+    }
+    function spider(x,y,ang,size,alpha,phase){
+      ctx.save();ctx.translate(x,y);ctx.rotate(ang);ctx.scale(size,size);ctx.globalAlpha=alpha;
+      ctx.strokeStyle='rgba(8,1,1,.96)';ctx.fillStyle='#100303';ctx.lineWidth=2.3;ctx.lineCap='round';
+      for(let side of [-1,1])for(let i=0;i<4;i++){
+        const yy=(i-1.5)*4.2,wiggle=Math.sin(phase+i*1.8)*2.2;
+        ctx.beginPath();ctx.moveTo(side*2,yy);ctx.quadraticCurveTo(side*(10+i*1.4),yy+wiggle,side*(17+i*1.5),yy+(i-1.5)*5);ctx.stroke();
+      }
+      ctx.beginPath();ctx.ellipse(-4,0,8,10,0,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.ellipse(5,0,6,7,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#db120d';ctx.shadowColor='#ff0000';ctx.shadowBlur=5;
+      ctx.beginPath();ctx.arc(8,-2,1.15,0,Math.PI*2);ctx.arc(8,2,1.15,0,Math.PI*2);ctx.fill();ctx.restore();
+    }
+    function draw(now){
+      const t=now-start;ctx.clearRect(0,0,w,h);
+      ctx.globalCompositeOperation='screen';
+      for(const m of motes){
+        const edge=m.p<.25?0:m.p<.5?1:m.p<.75?2:3,tt=t*.00002*m.v;
+        let x,y;if(edge===0){x=((m.x+tt)%1)*w;y=h*(.02+m.y*.12)}else if(edge===1){x=w*(.88+m.y*.1);y=((m.x+tt)%1)*h}else if(edge===2){x=((m.x-tt+1)%1)*w;y=h*(.86+m.y*.12)}else{x=w*(.02+m.y*.1);y=((m.x-tt+1)%1)*h}
+        const pulse=.25+.35*(.5+.5*Math.sin(t*.0016+m.p*30));ctx.fillStyle=`rgba(190,8,0,${pulse})`;ctx.shadowColor='#ff1700';ctx.shadowBlur=9;ctx.beginPath();ctx.arc(x,y,m.r,0,Math.PI*2);ctx.fill();
+      }
+      ctx.globalCompositeOperation='source-over';ctx.shadowBlur=0;
+      spiders.forEach((s,i)=>{const p=pathPoint(s.p+t*s.s),bob=Math.sin(t*.004+i)*2;spider(p.x,p.y+bob,p.ang,s.z,s.a,t*.009+i)});
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

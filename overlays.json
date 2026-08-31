@@ -1,5 +1,14 @@
 [
   {
+    "id": "horror-webcam-frame",
+    "title": "Horror Webcam-Rahmen",
+    "path": "overlays/horror-webcam-frame/",
+    "image": "overlays/horror-webcam-frame/frame.webp?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Blut, pulsierende Wurzeln, roter Nebel und Spinnen"
+  },
+  {
     "id": "carry-the-glass-logo",
     "title": "Carry the Glass – Sobix & Kaleyco",
     "path": "overlays/carry-the-glass-logo/",
