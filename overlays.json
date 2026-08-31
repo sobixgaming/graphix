@@ -1,92 +1,101 @@
 [
   {
+    "id": "horror-sobix-2",
+    "title": "Sobix – Runder Blutrahmen",
+    "path": "overlays/horror-sobix-2/",
+    "image": "overlays/horror-sobix-2/frame.webp",
+    "width": 1261,
+    "height": 1247,
+    "effect": "Rinnendes Blut und einzelne Tropfen"
+  },
+  {
+    "effect": "Blut, pulsierende Wurzeln, roter Nebel und Spinnen",
+    "height": 1080,
     "id": "horror-webcam-frame",
-    "title": "Horror Webcam-Rahmen",
-    "path": "overlays/horror-webcam-frame/",
     "image": "overlays/horror-webcam-frame/frame.webp?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Blut, pulsierende Wurzeln, roter Nebel und Spinnen"
+    "path": "overlays/horror-webcam-frame/",
+    "title": "Horror Webcam-Rahmen",
+    "width": 1920
   },
   {
+    "effect": "Glasbruch, Splitter, Cyan-Aura und Glanz",
+    "height": 1080,
     "id": "carry-the-glass-logo",
-    "title": "Carry the Glass – Sobix & Kaleyco",
-    "path": "overlays/carry-the-glass-logo/",
     "image": "overlays/carry-the-glass-logo/logo.webp?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Glasbruch, Splitter, Cyan-Aura und Glanz"
+    "path": "overlays/carry-the-glass-logo/",
+    "title": "Carry the Glass – Sobix & Kaleyco",
+    "width": 1920
   },
   {
+    "effect": "Starke Regenbogen-Aura, Goldglanz und Partikel",
+    "height": 1080,
     "id": "mecca-chameleon-logo",
-    "title": "Mecca Chameleon – Sobix & Friends",
-    "path": "overlays/mecca-chameleon-logo/",
     "image": "overlays/mecca-chameleon-logo/logo.webp?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Starke Regenbogen-Aura, Goldglanz und Partikel"
+    "path": "overlays/mecca-chameleon-logo/",
+    "title": "Mecca Chameleon – Sobix & Friends",
+    "width": 1920
   },
   {
+    "effect": "Türkise Kontur, Lichtlauf und Glanz",
+    "height": 1080,
     "id": "mythic-keys-logo",
-    "title": "Mythic+ Keys – Logo",
-    "path": "overlays/mythic-keys-logo/",
     "image": "overlays/mythic-keys-logo/logo.webp?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Türkise Kontur, Lichtlauf und Glanz"
+    "path": "overlays/mythic-keys-logo/",
+    "title": "Mythic+ Keys – Logo",
+    "width": 1920
   },
   {
+    "effect": "Goldrand, Glanz und Giftenergie",
+    "height": 1080,
     "id": "season2-progress-logo",
-    "title": "Season 2 Progress – Logo",
-    "path": "overlays/season2-progress-logo/",
     "image": "overlays/season2-progress-logo/logo.webp?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Goldrand, Glanz und Giftenergie"
+    "path": "overlays/season2-progress-logo/",
+    "title": "Season 2 Progress – Logo",
+    "width": 1920
   },
   {
-    "id": "splitruns-s2",
-    "title": "Welcome to Season 2 – Splitruns",
-    "path": "overlays/splitruns-s2/",
-    "image": "SplitrunsS2.webp",
-    "width": 1664,
+    "effect": "Glanzschimmer",
     "height": 935,
-    "effect": "Glanzschimmer"
+    "id": "splitruns-s2",
+    "image": "SplitrunsS2.webp",
+    "path": "overlays/splitruns-s2/",
+    "title": "Welcome to Season 2 – Splitruns",
+    "width": 1664
   },
   {
-    "id": "splitrun-rahmen-v",
-    "title": "Splitrun Rahmen V",
-    "path": "overlays/splitrun-rahmen-v/",
-    "image": "overlays/splitrun-rahmen-v/frame.png?v=4",
-    "width": 941,
+    "effect": "Energie, Glanz und Partikel",
     "height": 1672,
-    "effect": "Energie, Glanz und Partikel"
+    "id": "splitrun-rahmen-v",
+    "image": "overlays/splitrun-rahmen-v/frame.png?v=4",
+    "path": "overlays/splitrun-rahmen-v/",
+    "title": "Splitrun Rahmen V",
+    "width": 941
   },
   {
-    "id": "pepe-break-timer",
-    "title": "Pepe Break Timer",
-    "path": "overlays/pepe-break-timer/",
-    "image": "overlays/pepe-break-timer/pepe.jpg?v=1",
-    "width": 1920,
+    "effect": "Neon-Orbit und Partikel",
     "height": 1080,
-    "effect": "Neon-Orbit und Partikel"
+    "id": "pepe-break-timer",
+    "image": "overlays/pepe-break-timer/pepe.jpg?v=1",
+    "path": "overlays/pepe-break-timer/",
+    "title": "Pepe Break Timer",
+    "width": 1920
   },
   {
+    "effect": "Kamera, Licht, Vulkan, Pterosaurier und Blätter",
+    "height": 1920,
     "id": "very-safe-dino-park-reel",
-    "title": "Very Safe Dino Park – Reel",
-    "path": "overlays/very-safe-dino-park-reel/",
     "image": "overlays/very-safe-dino-park-reel/poster.jpg?v=1",
-    "width": 1080,
-    "height": 1920,
-    "effect": "Kamera, Licht, Vulkan, Pterosaurier und Blätter"
+    "path": "overlays/very-safe-dino-park-reel/",
+    "title": "Very Safe Dino Park – Reel",
+    "width": 1080
   },
   {
-    "id": "shark-dentist-horror-reel",
-    "title": "Shark Dentist – Horror Reel",
-    "path": "overlays/shark-dentist-horror-reel/",
-    "image": "overlays/shark-dentist-horror-reel/poster.jpg?v=1",
-    "width": 1080,
+    "effect": "Blut, OP-Licht, Nebel, Alarm und VHS",
     "height": 1920,
-    "effect": "Blut, OP-Licht, Nebel, Alarm und VHS"
+    "id": "shark-dentist-horror-reel",
+    "image": "overlays/shark-dentist-horror-reel/poster.jpg?v=1",
+    "path": "overlays/shark-dentist-horror-reel/",
+    "title": "Shark Dentist – Horror Reel",
+    "width": 1080
   }
 ]

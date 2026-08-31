@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sobix – Runder Blutrahmen</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+body{display:grid;place-items:center}
+#stage{position:relative;width:min(100vw,101.122694vh);aspect-ratio:1261/1247}
+img,canvas{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage"><img id="frame" src="frame.webp" alt="Runder Horror-Webcam-Rahmen"><canvas id="blood" aria-hidden="true"></canvas></div>
+<script>
+'use strict';
+const W=1261,H=1247,canvas=document.querySelector('#blood'),ctx=canvas.getContext('2d'),frame=document.querySelector('#frame');
+const surface=document.createElement('canvas');surface.width=W;surface.height=H;const paint=surface.getContext('2d');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+// Paths follow existing blood stains in the original artwork, not the camera opening.
+const streams=[
+ {x:287,y:303,l:87,r:4,period:9.1,delay:1.0},
+ {x:630,y:156,l:70,r:4.6,period:10.6,delay:4.6},
+ {x:804,y:174,l:49,r:3.6,period:8.8,delay:6.2},
+ {x:967,y:263,l:63,r:3.8,period:12.2,delay:2.9},
+ {x:1053,y:371,l:33,r:3.1,period:9.9,delay:7.7},
+ {x:1076,y:391,l:70,r:4.5,period:11.7,delay:3.1},
+ {x:231,y:751,l:62,r:3.9,period:12.7,delay:6.4},
+ {x:112,y:951,l:65,r:4.1,period:10.2,delay:1.2},
+ {x:234,y:1054,l:71,r:5.1,period:13.4,delay:8.1},
+ {x:454,y:1150,l:64,r:4.6,period:11.2,delay:5.3},
+ {x:1019,y:1065,l:65,r:4.8,period:12.4,delay:9.6},
+ {x:1148,y:956,l:58,r:3.4,period:10.8,delay:4.4}
+];
+function resize(){const rect=canvas.getBoundingClientRect();const d=Math.min(devicePixelRatio||1,2);canvas.width=Math.max(1,Math.round(rect.width*d));canvas.height=Math.max(1,Math.round(rect.height*d));ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0)}
+addEventListener('resize',resize);resize();
+function drop(c,x,y,r,elongation,alpha){
+ c.save();c.globalAlpha=alpha;c.translate(x,y);c.scale(1,elongation);
+ const g=c.createLinearGradient(-r,0,r,0);g.addColorStop(0,'#310005');g.addColorStop(.38,'#a7131b');g.addColorStop(.68,'#790007');g.addColorStop(1,'#240003');c.fillStyle=g;
+ c.beginPath();c.moveTo(0,-r*1.9);c.bezierCurveTo(r*.35,-r*.55,r,r*.1,r,r*.65);c.bezierCurveTo(r,r*1.75,-r,r*1.75,-r,r*.65);c.bezierCurveTo(-r,r*.1,-r*.35,-r*.55,0,-r*1.9);c.fill();
+ c.strokeStyle='rgba(255,191,170,.55)';c.lineWidth=.85;c.beginPath();c.moveTo(-r*.37,-r*.1);c.quadraticCurveTo(-r*.68,r*.65,-r*.3,r*.94);c.stroke();c.restore();
+}
+function render(t){
+ ctx.clearRect(0,0,W,H);paint.clearRect(0,0,W,H);
+ for(const s of streams){
+   const p=((t+s.delay)%s.period)/s.period;
+   const growth=Math.min(1,p/.76),len=s.l*(.15+.85*growth),bend=Math.sin(s.x)*1.7;
+   const g=paint.createLinearGradient(s.x-s.r,s.y,s.x+s.r,s.y);g.addColorStop(0,'#300002');g.addColorStop(.38,'#960710');g.addColorStop(.64,'#ba1820');g.addColorStop(1,'#3b0004');
+   paint.lineCap='round';paint.strokeStyle=g;paint.lineWidth=s.r*1.28;paint.globalAlpha=.87;
+   paint.beginPath();paint.moveTo(s.x,s.y);paint.bezierCurveTo(s.x+bend,s.y+len*.3,s.x-bend,s.y+len*.64,s.x,s.y+len);paint.stroke();
+   // Wet reflected light travels down the blood; no added aura or fog.
+   const head=(t*.16+s.delay*.13)%1;
+   paint.strokeStyle='rgba(245,144,132,.48)';paint.lineWidth=.85;paint.beginPath();paint.moveTo(s.x-1,s.y+head*len);paint.lineTo(s.x-1,s.y+Math.min(len,head*len+9));paint.stroke();
+ }
+ paint.globalAlpha=1;paint.globalCompositeOperation='destination-in';paint.drawImage(frame,0,0,W,H);paint.globalCompositeOperation='source-over';ctx.drawImage(surface,0,0);
+ for(const s of streams){
+   const p=((t+s.delay)%s.period)/s.period;
+   if(p<.76){const f=p/.76;drop(ctx,s.x,s.y+s.l*(.15+.85*f),s.r*(.35+.65*f),.7+.3*f,.92)}
+   else if(p<.91){const f=(p-.76)/.15;drop(ctx,s.x,s.y+s.l+28*f*f,s.r,.95+.4*f,.94*(1-f*f))}
+ }
+}
+let last=-1,origin=0;
+function tick(now){if(!origin)origin=now;if(now-last>=1000/30){render(reduce.matches?3.2:(now-origin)/1000);last=now}if(!reduce.matches)requestAnimationFrame(tick)}
+function start(){resize();requestAnimationFrame(tick)}
+if(frame.complete&&frame.naturalWidth)start();else frame.addEventListener('load',start,{once:true});
+</script>
+</body>
+</html>
