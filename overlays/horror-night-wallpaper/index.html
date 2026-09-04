@@ -9,16 +9,19 @@
 #stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:#090000;isolation:isolate}
 .backdrop,.scene,.ghost{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .backdrop{object-fit:cover;filter:blur(26px) brightness(.34) saturate(1.25);transform:scale(1.08);opacity:.9}
-.scene{object-fit:contain;z-index:1;filter:saturate(1.08) contrast(1.04);animation:breath 13s ease-in-out infinite}
+.scene{object-fit:cover;z-index:1;filter:saturate(1.08) contrast(1.04);animation:breath 13s ease-in-out infinite}
 .ghost{object-fit:contain;z-index:4;opacity:0;mix-blend-mode:screen;filter:saturate(1.8) contrast(1.35) hue-rotate(-12deg)}
 #rain{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 24%,rgba(10,0,0,.08) 62%,rgba(0,0,0,.34) 100%)}
-#title{position:absolute;z-index:5;left:50%;top:52.5%;transform:translate(-50%,-50%);color:rgba(239,224,217,.7);font:600 clamp(11px,1.15vw,22px)/1 Georgia,serif;letter-spacing:.42em;white-space:nowrap;text-shadow:0 0 4px #000,0 0 9px rgba(176,0,12,.8);animation:titlePulse 5.5s ease-in-out infinite;pointer-events:none}
+#title{position:absolute;z-index:5;left:50%;top:52%;transform:translate(-50%,-50%) rotate(-1deg);font:900 clamp(24px,1.55vw,54px)/.88 Georgia,"Times New Roman",serif;letter-spacing:.2em;white-space:nowrap;color:#c20a18;background:linear-gradient(180deg,#f3d8cf 0 17%,#d11a25 31%,#6b0008 74%,#250003 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 3px 1px #140000) drop-shadow(0 0 9px rgba(220,0,22,.8));animation:titlePulse 4.8s ease-in-out infinite;pointer-events:none}
+#title:before{content:attr(data-text);position:absolute;inset:0;z-index:-1;-webkit-text-fill-color:#bb0011;color:#bb0011;filter:blur(5px);opacity:.58;transform:scale(1.035)}
+#title:after{content:"";position:absolute;left:21%;top:94%;width:.09em;height:.48em;border-radius:0 0 60% 60%;background:linear-gradient(#a3000d,#3c0004);box-shadow:3.25em .08em 0 -.015em #730008,7.1em -.04em 0 -.025em #93000c;opacity:.72;animation:titleDrip 4.8s ease-in-out infinite}
 #stage.glitch .scene{transform:translateX(1px) scale(1.008);filter:saturate(1.2) contrast(1.1)}
 #stage.glitch .ghost{opacity:.13;transform:translateX(-3px);clip-path:inset(var(--cut-top) 0 var(--cut-bottom) 0)}
 #stage.glitch:after{content:"";position:absolute;z-index:6;left:0;right:0;top:var(--line);height:2px;background:rgba(255,35,48,.18);box-shadow:0 1px rgba(0,190,220,.12);pointer-events:none}
 @keyframes breath{0%,100%{transform:scale(1.003)}50%{transform:scale(1.012)}}
-@keyframes titlePulse{0%,100%{opacity:.48;text-shadow:0 0 4px #000,0 0 7px rgba(154,0,10,.45)}50%{opacity:.78;text-shadow:0 0 4px #000,0 0 13px rgba(205,0,17,.85)}}
+@keyframes titlePulse{0%,100%{opacity:.72;filter:drop-shadow(0 3px 1px #140000) drop-shadow(0 0 7px rgba(170,0,16,.6))}45%{opacity:.96;filter:drop-shadow(0 3px 1px #140000) drop-shadow(0 0 16px rgba(242,0,25,.95))}52%{opacity:.78}60%{opacity:.94}}
+@keyframes titleDrip{0%,100%{transform:scaleY(.52);opacity:.5}50%{transform:scaleY(1.14);opacity:.86}}
 </style>
 </head>
 <body>
@@ -27,7 +30,7 @@
  <img class="scene" src="wallpaper.jpg?v=1" alt="Dunkle rote Horrorlandschaft">
  <div id="shade"></div><canvas id="rain"></canvas>
  <img class="ghost" src="wallpaper.jpg?v=1" alt="">
- <div id="title">HORROR NIGHT</div>
+ <div id="title" data-text="HORROR NIGHT">HORROR NIGHT</div>
 </main>
 <script>
 'use strict';
@@ -40,7 +43,7 @@ function seed(drop,first=false){
  drop.alpha=.22+Math.random()*.5;drop.sway=-w*(.006+Math.random()*.006);drop.heavy=Math.random()<.12;
 }
 function resize(){
- const r=canvas.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);
+ const r=canvas.getBoundingClientRect();w=r.width;h=r.height;dpr=1;
  canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
  while(drops.length<Math.min(240,Math.round(w/7)))drops.push({});drops.forEach(d=>seed(d,true));
 }

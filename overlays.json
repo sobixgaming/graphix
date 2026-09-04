@@ -1,12 +1,12 @@
 [
   {
+    "effect": "Blutregen, dezenter Glitch und auffälliger Horror-Night-Schriftzug",
+    "height": 1440,
     "id": "horror-night-wallpaper",
-    "title": "Horror Night – Stream Wallpaper",
-    "path": "overlays/horror-night-wallpaper/",
     "image": "overlays/horror-night-wallpaper/wallpaper.jpg?v=1",
-    "width": 1920,
-    "height": 1080,
-    "effect": "Blutregen, dezenter Glitch und Horror-Night-Schriftzug"
+    "path": "overlays/horror-night-wallpaper/",
+    "title": "Horror Night – Stream Wallpaper",
+    "width": 3440
   },
   {
     "effect": "Rinnendes Blut und einzelne Tropfen",
