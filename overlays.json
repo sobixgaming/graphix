@@ -1,12 +1,21 @@
 [
   {
-    "id": "horror-sobix-2",
-    "title": "Sobix – Runder Blutrahmen",
-    "path": "overlays/horror-sobix-2/",
-    "image": "overlays/horror-sobix-2/frame.webp",
-    "width": 1261,
+    "id": "horror-night-wallpaper",
+    "title": "Horror Night – Stream Wallpaper",
+    "path": "overlays/horror-night-wallpaper/",
+    "image": "overlays/horror-night-wallpaper/wallpaper.jpg?v=1",
+    "width": 1920,
+    "height": 1080,
+    "effect": "Blutregen, dezenter Glitch und Horror-Night-Schriftzug"
+  },
+  {
+    "effect": "Rinnendes Blut und einzelne Tropfen",
     "height": 1247,
-    "effect": "Rinnendes Blut und einzelne Tropfen"
+    "id": "horror-sobix-2",
+    "image": "overlays/horror-sobix-2/frame.webp",
+    "path": "overlays/horror-sobix-2/",
+    "title": "Sobix – Runder Blutrahmen",
+    "width": 1261
   },
   {
     "effect": "Blut, pulsierende Wurzeln, roter Nebel und Spinnen",

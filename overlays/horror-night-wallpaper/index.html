@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Horror Night – Stream Wallpaper</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070000}
+#stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:#090000;isolation:isolate}
+.backdrop,.scene,.ghost{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.backdrop{object-fit:cover;filter:blur(26px) brightness(.34) saturate(1.25);transform:scale(1.08);opacity:.9}
+.scene{object-fit:contain;z-index:1;filter:saturate(1.08) contrast(1.04);animation:breath 13s ease-in-out infinite}
+.ghost{object-fit:contain;z-index:4;opacity:0;mix-blend-mode:screen;filter:saturate(1.8) contrast(1.35) hue-rotate(-12deg)}
+#rain{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+#shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 24%,rgba(10,0,0,.08) 62%,rgba(0,0,0,.34) 100%)}
+#title{position:absolute;z-index:5;left:50%;top:52.5%;transform:translate(-50%,-50%);color:rgba(239,224,217,.7);font:600 clamp(11px,1.15vw,22px)/1 Georgia,serif;letter-spacing:.42em;white-space:nowrap;text-shadow:0 0 4px #000,0 0 9px rgba(176,0,12,.8);animation:titlePulse 5.5s ease-in-out infinite;pointer-events:none}
+#stage.glitch .scene{transform:translateX(1px) scale(1.008);filter:saturate(1.2) contrast(1.1)}
+#stage.glitch .ghost{opacity:.13;transform:translateX(-3px);clip-path:inset(var(--cut-top) 0 var(--cut-bottom) 0)}
+#stage.glitch:after{content:"";position:absolute;z-index:6;left:0;right:0;top:var(--line);height:2px;background:rgba(255,35,48,.18);box-shadow:0 1px rgba(0,190,220,.12);pointer-events:none}
+@keyframes breath{0%,100%{transform:scale(1.003)}50%{transform:scale(1.012)}}
+@keyframes titlePulse{0%,100%{opacity:.48;text-shadow:0 0 4px #000,0 0 7px rgba(154,0,10,.45)}50%{opacity:.78;text-shadow:0 0 4px #000,0 0 13px rgba(205,0,17,.85)}}
+</style>
+</head>
+<body>
+<main id="stage">
+ <img class="backdrop" src="wallpaper.jpg?v=1" alt="">
+ <img class="scene" src="wallpaper.jpg?v=1" alt="Dunkle rote Horrorlandschaft">
+ <div id="shade"></div><canvas id="rain"></canvas>
+ <img class="ghost" src="wallpaper.jpg?v=1" alt="">
+ <div id="title">HORROR NIGHT</div>
+</main>
+<script>
+'use strict';
+const stage=document.querySelector('#stage'),canvas=document.querySelector('#rain'),ctx=canvas.getContext('2d');
+let w=0,h=0,dpr=1,last=performance.now();
+const drops=[];
+function seed(drop,first=false){
+ drop.x=Math.random()*w;drop.y=first?Math.random()*h:-30-Math.random()*h*.25;
+ drop.speed=h*(.42+Math.random()*.75);drop.len=h*(.012+Math.random()*.035);drop.width=.7+Math.random()*1.65;
+ drop.alpha=.22+Math.random()*.5;drop.sway=-w*(.006+Math.random()*.006);drop.heavy=Math.random()<.12;
+}
+function resize(){
+ const r=canvas.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);
+ canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
+ while(drops.length<Math.min(240,Math.round(w/7)))drops.push({});drops.forEach(d=>seed(d,true));
+}
+function bloodDrop(d){
+ const grad=ctx.createLinearGradient(d.x-d.width,d.y,d.x+d.width,d.y);grad.addColorStop(0,`rgba(42,0,3,${d.alpha})`);grad.addColorStop(.48,`rgba(172,3,14,${d.alpha})`);grad.addColorStop(.68,`rgba(237,36,43,${d.alpha*.72})`);grad.addColorStop(1,`rgba(39,0,2,${d.alpha})`);
+ ctx.strokeStyle=grad;ctx.lineCap='round';ctx.lineWidth=d.width*(d.heavy?1.75:1);ctx.beginPath();ctx.moveTo(d.x-d.sway*.018,d.y-d.len);ctx.lineTo(d.x,d.y);ctx.stroke();
+ if(d.heavy){ctx.fillStyle=`rgba(119,0,9,${d.alpha})`;ctx.beginPath();ctx.ellipse(d.x,d.y,d.width*1.25,d.width*1.8,0,0,Math.PI*2);ctx.fill()}
+}
+function splash(x,y,a){
+ ctx.fillStyle=`rgba(110,0,8,${a})`;ctx.beginPath();ctx.ellipse(x,y,8,2.2,0,0,Math.PI*2);ctx.fill();
+ for(let i=0;i<5;i++){const q=1+i%2;ctx.beginPath();ctx.arc(x-12+i*6,y-2-(i%3)*3,q,0,Math.PI*2);ctx.fill()}
+}
+function draw(now){
+ const dt=Math.min(.04,(now-last)/1000);last=now;ctx.clearRect(0,0,w,h);
+ for(const d of drops){d.x+=d.sway*dt;d.y+=d.speed*dt;bloodDrop(d);if(d.y>h+35){if(d.heavy)splash(d.x,h-2,d.alpha*.7);seed(d)}}
+ requestAnimationFrame(draw);
+}
+function glitch(){
+ stage.style.setProperty('--cut-top',`${8+Math.random()*66}%`);stage.style.setProperty('--cut-bottom',`${8+Math.random()*18}%`);stage.style.setProperty('--line',`${15+Math.random()*70}%`);
+ stage.classList.add('glitch');setTimeout(()=>stage.classList.remove('glitch'),75+Math.random()*65);setTimeout(glitch,5200+Math.random()*6500);
+}
+addEventListener('resize',resize);resize();requestAnimationFrame(draw);setTimeout(glitch,3900+Math.random()*2400);
+</script>
+</body>
+</html>
