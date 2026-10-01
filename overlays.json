@@ -1,5 +1,14 @@
 [
   {
+    "id": "raid-progress-webcam",
+    "title": "Raid Progress – Webcam Overlay",
+    "path": "overlays/raid-progress-webcam/",
+    "image": "overlays/raid-progress-webcam/frame.png?v=1",
+    "width": 1672,
+    "height": 941,
+    "effect": "Glanzlauf und sanft leuchtende Edelsteine"
+  },
+  {
     "effect": "Blutregen, dezenter Glitch und auffälliger Horror-Night-Schriftzug",
     "height": 1440,
     "id": "horror-night-wallpaper",
